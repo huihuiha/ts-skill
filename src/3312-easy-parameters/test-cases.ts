@@ -1,24 +1,12 @@
 import type { Equal, Expect } from '@type-challenges/utils';
-import { MyPick } from './template';
+import { MyParameters } from './template';
+
+const foo = (arg1: string, arg2: number): void => {};
+const bar = (arg1: boolean, arg2: { a: 'A' }): void => {};
+const baz = (): void => {};
 
 type cases = [
-  Expect<Equal<Expected1, MyPick<Todo, 'title'>>>,
-  Expect<Equal<Expected2, MyPick<Todo, 'title' | 'completed'>>>,
-  // @ts-expect-error
-  MyPick<Todo, 'title' | 'completed' | 'invalid'>,
-]
-
-interface Todo {
-  title: string
-  description: string
-  completed: boolean
-}
-
-interface Expected1 {
-  title: string
-}
-
-interface Expected2 {
-  title: string
-  completed: boolean
-}
+  Expect<Equal<MyParameters<typeof foo>, [string, number]>>,
+  Expect<Equal<MyParameters<typeof bar>, [boolean, { a: 'A' }]>>,
+  Expect<Equal<MyParameters<typeof baz>, []>>
+];
